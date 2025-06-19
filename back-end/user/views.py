@@ -37,6 +37,7 @@ def connexion_view(request):
 
 def inscription_view(request):
     if request.method == "POST":
+        # Récupération des champs du formulaire
         nom = request.POST.get('nom')
         prenom = request.POST.get('prenom')
         email = request.POST.get('email')
@@ -45,8 +46,8 @@ def inscription_view(request):
         confirm_password = request.POST.get('confirm_password')
         role = request.POST.get('role')
 
-        # Vérification simple des champs
-        if not all([nom, prenom, email, telephone, password, role]):
+        # Vérification des champs requis
+        if not all([nom, prenom, email, telephone, password, confirm_password, role]):
             messages.error(request, "Veuillez remplir tous les champs.")
             return render(request, 'user/inscription.html')
 
@@ -54,39 +55,41 @@ def inscription_view(request):
             messages.error(request, "Les mots de passe ne correspondent pas.")
             return render(request, 'user/inscription.html')
 
-        # Vérifier que l'email n'existe pas déjà
         if User.objects.filter(email=email).exists():
             messages.error(request, "Cet email est déjà utilisé.")
             return render(request, 'user/inscription.html')
 
-        # Création du user (utilisateur)
-        username = email.split('@')[0]  # simple username à partir de l’email
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password,
-            first_name=prenom,
-            last_name=nom
-        )
+        # Génération d'un username unique
+        username = generate_unique_username(email)
 
-        # Création du profil lié au user (évite doublon avec get_or_create)
+        try:
+            # Création de l'utilisateur
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password,
+                first_name=prenom,
+                last_name=nom
+            )
+        except IntegrityError:
+            messages.error(request, "Une erreur est survenue lors de la création de l'utilisateur.")
+            return render(request, 'user/inscription.html')
+
+        # Création du profil
         profil, created = Profile.objects.get_or_create(
             user=user,
             defaults={'telephone': telephone, 'role': role}
         )
         if not created:
-            # Si le profil existe déjà, on peut mettre à jour les champs
             profil.telephone = telephone
             profil.role = role
             profil.save()
 
-        # ASSIGNATION DU GROUPE
-        from django.contrib.auth.models import Group
-
+        # Ajout au groupe correspondant au rôle
         if role == 'conducteur':
-            group = Group.objects.get(name='Conducteur')
+            group, _ = Group.objects.get_or_create(name='Conducteur')
         elif role == 'passager':
-            group = Group.objects.get(name='Passager')
+            group, _ = Group.objects.get_or_create(name='Passager')
         else:
             group = None
 
@@ -94,8 +97,9 @@ def inscription_view(request):
             user.groups.add(group)
 
         messages.success(request, "Inscription réussie ! Vous pouvez maintenant vous connecter.")
-        return redirect('connexion')  # adapte ce nom à ta route connexion
+        return redirect('connexion')  # adapte ce nom à ta route
 
+    return render(request, 'user/inscription.html')
     return render(request, 'user/inscription.html')
 
 def bienvenue_view(request):
@@ -210,3 +214,15 @@ def profil_view(request):
         'profile_form': profile_form
     }
     return render(request, 'user/profil.html', context)
+
+def generate_unique_username(email):
+    
+    base_username = email.split('@')[0]
+    username = base_username
+    compteur = 1
+
+    while User.objects.filter(username=username).exists():
+        username = f"{base_username}{compteur}"
+        compteur += 1
+
+    return username
