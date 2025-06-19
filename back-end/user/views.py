@@ -8,6 +8,8 @@ from django.contrib.auth import logout
 from .forms import UserUpdateForm, ProfileUpdateForm
 from covoiturage.models import Trajet, Publication, MessagePrive, Reservation
 from django.db.models import Q
+from django.contrib.auth.models import Group
+from django.db import IntegrityError
 
 
 
