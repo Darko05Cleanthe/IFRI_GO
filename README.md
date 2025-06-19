@@ -92,6 +92,10 @@ Dans le dossier back-end/ :
 
 cd back-end 
 
+Attention, vous devez d'abord vous placer dans le dossier "back-end"
+
+python manage.py makemigrations
+
 python manage.py migrate
 
 ### 6. Creer un super utilisateur (admin)
