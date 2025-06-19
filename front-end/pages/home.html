@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IFRI GO - Tableau de bord</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #f5f7fb;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #6C63FF;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 3px 8px rgba(108, 99, 255, 0.3);
+      gap: 0.5rem;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+      user-select: none;
+      cursor: default;
+      white-space: nowrap;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.3s ease, border-bottom 0.3s ease;
+      padding-bottom: 0.15rem;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+
+    nav a:hover,
+    nav a.active {
+      opacity: 0.75;
+      border-bottom-color: white;
+    }
+
+    main {
+      flex-grow: 1;
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      width: 100%;
+    }
+
+    .hero {
+      background: url('/static/assets/img/hero-bg.jpg') center center/cover no-repeat;
+      border-radius: 12px;
+      color: white;
+      padding: 4rem 2rem;
+      box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.45);
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      word-break: break-word;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      font-weight: 500;
+      word-break: break-word;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background-color: #6C63FF;
+      color: white;
+      padding: 1rem 3rem;
+      border-radius: 30px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1.2rem;
+      box-shadow: 0 5px 15px rgba(108, 99, 255, 0.5);
+      transition: background-color 0.3s ease;
+      max-width: 100%;
+      word-break: break-word;
+      white-space: normal;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+      background-color: #5751d9;
+      outline: none;
+    }
+
+    section.features {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .feature-box {
+      background: white;
+      flex: 1 1 250px;
+      max-width: 320px;
+      padding: 2rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+      cursor: default;
+      user-select: none;
+    }
+
+    .feature-box:hover,
+    .feature-box:focus-within {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+
+    .feature-box h3 {
+      margin-bottom: 1rem;
+      color: #6C63FF;
+      font-weight: 700;
+    }
+
+    .feature-box p {
+      font-weight: 500;
+      color: #555;
+      font-size: 1rem;
+      word-break: break-word;
+    }
+
+    footer {
+      background: #3F3D56;
+      color: #ccc;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      user-select: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 1rem;
+        justify-content: center;
+        gap: 0.75rem;
+      }
+
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        align-items: center;
+      }
+
+      nav a {
+        font-size: 1.1rem;
+        margin-left: 0;
+        padding-bottom: 0.3rem;
+      }
+
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+        max-width: 90%;
+      }
+
+      .btn-primary {
+        padding: 0.9rem 1.8rem;
+        font-size: 1rem;
+        max-width: 280px;
+        white-space: normal;
+        word-break: break-word;
+      }
+
+      section.features {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .feature-box {
+        max-width: 90vw;
+        padding: 1.5rem 1rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">IFRI GO</div>
+  <nav>
+    <a href="{% url 'home' %}" class="active">Accueil</a>
+    <a href="{% url 'page_utilisateur' %}">Tableau de bord</a>
+    <a href="{% url 'logout' %}">Déconnexion</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero" role="banner" aria-label="Section d'accueil">
+    <h1>Bienvenue sur IFRI GO</h1>
+    <p>La plateforme intuitive qui facilite le covoiturage et la gestion de vos trajets entre étudiants IFRI, en toute sécurité.</p>
+    <a href="{% url 'page_utilisateur' %}" class="btn-primary" role="button" aria-label="Voir mon tableau de bord">Voir mon tableau de bord</a>
+  </div>
+
+  <section class="features" aria-label="Fonctionnalités principales">
+    <div class="feature-box" tabindex="0">
+      <h3>Publier un trajet</h3>
+      <p>Proposez vos trajets facilement et trouvez des passagers rapidement.</p>
+    </div>
+    <div class="feature-box" tabindex="0">
+      <h3>Messagerie privée</h3>
+      <p>Communiquez directement avec les conducteurs ou passagers pour organiser vos déplacements.</p>
+    </div>
+    <div class="feature-box" tabindex="0">
+      <h3>Profil personnalisé</h3>
+      <p>Gérez vos informations, vos trajets et vos messages dans un espace dédié.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 IFRI GO. Tous droits réservés.
+</footer>
+</body>
+</html>

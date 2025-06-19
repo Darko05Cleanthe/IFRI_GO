@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bienvenue sur GO</title>
+  <style>
+    /* Reset simple */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      user-select: none;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      max-width: 500px;
+      line-height: 1.5;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    }
+
+    /* Conteneur des boutons avec espace */
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      background: #fff;
+      color: #764ba2;
+      font-weight: 700;
+      font-size: 1.2rem;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(118, 75, 162, 0.4);
+      transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background: #5a37a0;
+      color: #fff;
+      box-shadow: 0 6px 15px rgba(90, 55, 160, 0.7);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+      .btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>ZEMIDJAN A GOGO</header>
+
+  <main>
+    <h1>Bienvenue sur IFRI GO</h1>
+    <p>La plateforme intuitive pour gérer vos transports et voyage facilement et en toute sécurité.</p>
+    <div class="btn-group">
+      <a href="{% url 'inscription' %}" class="btn">Créer un compte</a>
+      <a href="{% url 'connexion' %}" class="btn">Se connecter</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 GO. Tous droits réservés.
+  </footer>
+</body>
+</html>

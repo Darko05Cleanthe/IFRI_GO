@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion - IFRI GO</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6c63ff, #a393f0);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 450px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      margin-top: 60px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 25px;
+      font-size: 24px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      color: #34495e;
+    }
+
+    input {
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #6c63ff;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 14px;
+      font-size: 16px;
+      background-color: #6c63ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #4a47d1;
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .footer-text a {
+      color: #6c63ff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .messages li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: 600;
+  }
+
+  /* Message d’erreur */
+  .messages li.error {
+    background-color: #ffe6e6;
+    color: #c0392b;
+  }
+
+  /* Message de succès */
+  .messages li.success {
+    background-color: #d4edda;
+    color: #48c9b0;
+  }
+
+    @media screen and (max-width: 480px) {
+      .container {
+        margin: 20px 15px;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      input, button {
+        font-size: 15px;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Connexion</h1>
+    <form action="{% url 'connexion' %}" method="POST">
+      {% csrf_token %}
+
+      <label for="identifiant">Email ou Téléphone</label>
+      <input type="email" name="identifiant" id="identifiant" required>
+
+      <label for="password">Mot de passe</label>
+      <input type="password" name="password" id="password" required>
+
+      <button type="submit">Se connecter</button>
+    </form>
+
+    {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+   {% endif %}
+
+    <div class="footer-text">
+      Pas encore de compte ? <a href="{% url 'inscription' %}" class="btn">Créer un compte</a>
+    </div>
+  </div>
+</body>
+</html>

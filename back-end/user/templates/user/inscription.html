@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription - IFRI GO</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6c63ff, #a393f0);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 450px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      margin-top: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 25px;
+      font-size: 24px;
+    }
+
+    .messages li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: 600;
+  }
+
+  /* Message d’erreur */
+  .messages li.error {
+    background-color: #ffe6e6;
+    color: #c0392b;
+  }
+
+  /* Message de succès */
+  .messages li.success {
+    background-color: #d4edda;
+    color: #48c9b0;
+  }
+
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      color: #34495e;
+    }
+
+    input, select {
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: #6c63ff;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 14px;
+      font-size: 16px;
+      background-color: #6c63ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #4a47d1;
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .footer-text a {
+      color: #6c63ff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    @media screen and (max-width: 480px) {
+      .container {
+        margin: 20px 15px;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      input, select, button {
+        font-size: 15px;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Créer un compte</h1>
+
+    <form method="POST" action="{% url 'inscription' %}">
+      {% csrf_token %}
+      <label for="nom">Nom</label>
+      <input type="text" name="nom" id="nom" required>
+
+      <label for="prenom">Prénom</label>
+      <input type="text" name="prenom" id="prenom" required>
+
+      <label for="email">Adresse e-mail</label>
+      <input type="email" name="email" id="email" required>
+
+      <label for="telephone">Numéro de téléphone</label>
+      <input type="tel" name="telephone" id="telephone" required>
+
+      <label for="password">Mot de passe</label>
+      <input type="password" name="password" id="password" required>
+
+      <label for="confirm_password">Confirmer le mot de passe</label>
+      <input type="password" name="confirm_password" id="confirm_password" required>
+
+      <label for="role">Rôle</label>
+      <select name="role" id="role" required>
+        <option value=""> Choisir un rôle </option>
+        <option value="conducteur">Conducteur</option>
+        <option value="passager">Passager</option>
+      </select>
+
+      <button type="submit">S'inscrire</button>
+    </form>
+
+   {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+   {% endif %}
+
+    <div class="footer-text">
+      Déjà inscrit ? <a href="{% url 'connexion' %}" class="btn">Connexion</a>
+    </div>
+  </div>
+</body>
+</html>

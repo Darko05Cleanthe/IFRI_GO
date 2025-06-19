@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Déconnexion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f85032, #e73827);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .logout-box {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        .logout-box h1 {
+            margin-bottom: 20px;
+        }
+        .logout-box form button {
+            background-color: #e73827;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .logout-box form button:hover {
+            background-color: #c53020;
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-box">
+        <h1>Vous souhaitez vous déconnecter ?</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit">Se déconnecter</button>
+        </form>
+    </div>
+</body>
+</html>

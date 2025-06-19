@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IFRI GO - Page Utilisateur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f4f6fc;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(90deg, #6C63FF, #3F3D56);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0.7rem;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+      white-space: nowrap;
+    }
+
+    nav a:hover,
+    nav a.active {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-bottom: none;
+    }
+
+    .user-info {
+      color: #fff;
+      font-size: 0.9rem;
+      margin-left: 1rem;
+      white-space: nowrap;
+    }
+
+    /* Hamburger menu button for mobile */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      width: 25px;
+      height: 20px;
+      justify-content: space-between;
+    }
+
+    .menu-toggle span {
+      display: block;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+
+    .hero {
+      background: url('/static/assets/img/les-gens-sont-sur-les-motos-dans-la-grande-ville-asiatique.webp') center/cover no-repeat;
+      border-radius: 12px;
+      padding: 4rem 2rem;
+      color: white;
+      text-align: center;
+      margin-bottom: 2rem;
+      background-blend-mode: darken;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+    }
+
+    .box {
+      background-color: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      word-break: break-word;
+    }
+
+    .publication textarea, 
+    .publication input[type="text"], 
+    .publication select {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 0.5rem;
+      box-sizing: border-box;
+      font-family: inherit;
+      font-size: 1rem;
+    }
+
+    .publication textarea {
+      height: 100px;
+      resize: none;
+    }
+
+    .publication button {
+      margin-top: 1rem;
+      padding: 0.8rem 2rem;
+      background-color: #6C63FF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .publication button:hover {
+      background-color: #5952d4;
+    }
+
+    footer {
+      background-color: #3F3D56;
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+    }
+
+    /* Messages list styling */
+    ul {
+      padding-left: 1.2rem;
+      margin: 0;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    ul li {
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: linear-gradient(90deg, #6C63FF, #3F3D56);
+        margin-top: 0.5rem;
+        border-radius: 6px;
+        padding: 0.5rem 0;
+      }
+
+      nav.active {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      header {
+        padding: 1rem;
+      }
+
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+
+      .user-info {
+        margin-top: 0.7rem;
+        width: 100%;
+        text-align: center;
+        order: 2;
+      }
+
+      .logo {
+        flex-grow: 1;
+      }
+    }
+
+    /* Publication & Trajets and Publications - responsive */
+    @media (max-width: 480px) {
+      .publication textarea,
+      .publication input[type="text"],
+      .publication select,
+      .publication button {
+        font-size: 0.9rem;
+      }
+
+      .box {
+        padding: 1rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">IFRI GO</div>
+
+  <div class="menu-toggle" id="menu-toggle" aria-label="Menu navigation" role="button" tabindex="0">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <nav id="nav-menu" aria-label="Navigation principale">
+    <a href="{% url 'home' %}" class="active">Accueil</a>
+    <a href="{% url 'covoiturage:liste_trajets' %}">Trajets</a>
+    <a href="{% url 'covoiturage:nouveau_message' %}">Messages</a>
+    <a href="{% url 'covoiturage:boite_reception' %}">Boîte de réception</a>
+    <a href="{% url 'profil' %}">Profil</a>
+    <a href="{% url 'logout' %}">Déconnexion</a>
+  </nav>
+
+  <div class="user-info" aria-label="Information utilisateur">
+    Bonjour, <strong>{{ user.username }}</strong>
+  </div>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <h1>Bienvenue sur votre espace personnel</h1>
+    <p>Partagez vos trajets, échangez avec d'autres étudiants, et suivez vos publications.</p>
+  </div>
+  <div class="dashboard" style="margin-bottom: 2rem;">
+  <div class="box" style="grid-column: span 2;">
+    <h2>🔔 Notifications</h2>
+    <!-- DEBUG -->
+<p>{{ nouvelles_reservations|length }} notification(s)</p>
+
+    {% if nouvelles_reservations %}
+      <ul>
+        {% for notif in nouvelles_reservations %}
+          <li style="margin-bottom: 0.5rem;">
+            <strong>{{ notif.passager.username }}</strong> a réservé le trajet 
+            <strong>{{ notif.trajet.depart }} ➡ {{ notif.trajet.destination }}</strong>
+            le {{ notif.date_reservation|date:"d/m/Y H:i" }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Aucune nouvelle réservation.</p>
+    {% endif %}
+  </div>
+</div>
+
+
+  <div class="dashboard">
+    <div class="box publication" role="region" aria-labelledby="publier-annonce">
+      <h2 id="publier-annonce">Publier une annonce</h2>
+      {% if erreurs %}
+        <ul style="color: red;">
+          {% for err in erreurs %}
+            <li>{{ err }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      <form method="POST" novalidate>
+        {% csrf_token %}
+        <input type="text" name="titre" placeholder="Titre de la publication" required
+               value="{{ form_data.titre|default:'' }}" aria-label="Titre de la publication" />
+        <select name="trajet" required aria-label="Choisir un trajet">
+          <option value="">-- Choisir un trajet --</option>
+          {% for trajet in trajets %}
+            <option value="{{ trajet.id }}" {% if trajet.id|stringformat:"s" == form_data.trajet|stringformat:"s" %}selected{% endif %}>
+              {{ trajet.depart }} ➡ {{ trajet.destination }}
+            </option>
+          {% endfor %}
+        </select>
+        <textarea name="contenu" placeholder="Contenu de la publication" required aria-label="Contenu de la publication">{{ form_data.contenu|default:'' }}</textarea>
+        <button type="submit">Publier</button>
+      </form>
+    </div>
+
+    <div class="box" role="region" aria-labelledby="dernier-messages">
+      <h2 id="dernier-messages">Derniers messages</h2>
+      <ul>
+        {% for msg in messages_recus %}
+          <li><strong>{{ msg.auteur.username }} :</strong> {{ msg.contenu|truncatewords:8 }}</li>
+        {% empty %}
+          <li>Aucun message récent.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="dashboard" style="margin-top: 2rem;">
+    <div class="box" style="grid-column: span 2;" role="region" aria-labelledby="mes-trajets">
+      <h2 id="mes-trajets">Mes Trajets</h2>
+      {% for trajet in trajets %}
+        <div style="padding: 1rem 0; border-bottom: 1px solid #eee;">
+          <strong>{{ trajet.depart }} ➡ {{ trajet.destination }}</strong><br>
+          Date de départ : {{ trajet.date_depart|date:"d M Y" }}<br>
+          Heure de départ : {{ trajet.heure_depart|time:"H:i" }}<br>
+          Conducteur : {{ trajet.conducteur.username }}<br>
+          Places disponibles : {{ trajet.places_disponibles }}<br>
+          Prix : {{ trajet.prix }} FCFA
+        </div>
+      {% empty %}
+        <p>Aucun trajet publié pour le moment.</p>
+      {% endfor %}
+    </div>
+
+    <div class="box" style="grid-column: span 2;" role="region" aria-labelledby="mes-publications">
+      <h2 id="mes-publications">Mes Publications</h2>
+      {% for publication in publications %}
+        <div style="padding: 1rem 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+          <div style="flex: 1 1 70%; min-width: 200px;">
+            <strong>{{ publication.titre }}</strong> — {{ publication.date_pub|date:"d M Y H:i" }}<br>
+            Par {{ publication.conducteur.username }}<br>
+            {{ publication.contenu|linebreaksbr }}
+          </div>
+          <form method="POST" action="{% url 'covoiturage:supprimer_publication' publication.id %}" style="margin:0; flex: 1 1 20%; min-width: 120px; text-align: right;">
+            {% csrf_token %}
+            <button type="submit" onclick="return confirm('Voulez-vous vraiment supprimer cette publication ?');" 
+                    style="background-color: #e74c3c; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">
+              Supprimer
+            </button>
+          </form>
+        </div>
+      {% empty %}
+        <p>Aucune publication disponible.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 IFRI GO. Tous droits réservés.
+</footer>
+
+<script>
+  // Toggle mobile menu
+  const menuToggle = document.getElementById('menu-toggle');
+  const navMenu = document.getElementById('nav-menu');
+
+  menuToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+  });
+
+  menuToggle.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      navMenu.classList.toggle('active');
+    }
+  });
+</script>
+
+</body>
+</html>
